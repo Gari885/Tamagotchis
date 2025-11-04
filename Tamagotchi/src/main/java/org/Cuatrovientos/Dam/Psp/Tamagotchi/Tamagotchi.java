@@ -2,7 +2,7 @@ package org.Cuatrovientos.Dam.Psp.Tamagotchi;
 
 import java.util.Random;
 import java.util.Scanner;
-
+import java.util.concurrent.CountDownLatch;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -14,6 +14,7 @@ public class Tamagotchi implements Runnable {
 	private Random random;
 	private Scanner scanner;
 	private Cuidador cuidador;
+	private CountDownLatch latch;
 	//Enum para controlar los estados del Tamagotchi
 	private enum Estados {
 		NADA,
@@ -33,8 +34,6 @@ public class Tamagotchi implements Runnable {
 	}
 	
 	public void run() {
-		//Falta implementar logica de matar lo tenog que mirar y poner comentarios y ya estaria yo creo :D
-		//Mejorar logica de mostar tamagochis disponibles para x actividad
 		
 		//Variables de tiempo de inicio para comprobar por ejemplo la suciedad y el tiempo de vida
 	    long tiempoInicio = System.currentTimeMillis();
@@ -79,6 +78,7 @@ public class Tamagotchi implements Runnable {
 	    				jugar = false;
 	    			}
 	    		}
+	    	    latch.countDown(); // Libera la espera
 	    		//Cambiamos el estado a nada para que no se repita
 	    		estadoTamagotchi = Estados.NADA;
 	    	}else if (estadoTamagotchi == Estados.LIMPIARSE) {
@@ -91,8 +91,8 @@ public class Tamagotchi implements Runnable {
 	    		}
 	    		System.out.println("Tamagotchi " + id + " ha terminado de limpiarse");
 	    		suciedad = 0;
+	    	    latch.countDown(); // Bajamos el contador una posicion, osea a 0 y liberamos el hilo principal
 	    		//Cambiamos el estado a nada para que no se repita
-
 	    		estadoTamagotchi = Estados.NADA;
 
 	    	}else if (estadoTamagotchi == Estados.COMER) {
@@ -104,8 +104,8 @@ public class Tamagotchi implements Runnable {
 	    			e.printStackTrace();
 	    		}
 	    		System.out.println("Tamagotchi " + id + " finalizo de comer");
+	    	    latch.countDown(); // Bajamos el contador una posicion, osea a 0 y liberamos el hilo principal
 	    		//Cambiamos el estado a nada para que no se repita
-
 	    		estadoTamagotchi = Estados.NADA;
 	    	}
 	    	
@@ -122,17 +122,40 @@ public class Tamagotchi implements Runnable {
 	
 	//Variables para las funcionalidades del tamagotchi, en este caso cambiamos el estadoTamagotchi para luego verificar en el run()
 	public void comer() {
-		estadoTamagotchi = Estados.COMER;
-	
+		//Igual que en jugar solo que cambiamos el metodo
+	    latch = new CountDownLatch(1);
+	    estadoTamagotchi = Estados.COMER;
+	    try {
+	        latch.await(); // Espera hasta que termine
+	    } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
 	}
 	
 	public void jugar() {
+		//CountDownLatch basicamente es un contador, que inizializamos en cada metodo con un uno 1, y usando el await, paramos el hilo principal
+		//Y cuando el contador llegue a 0 (eso lo hacemos en el metodo) se libera el hilo principal	
+	    latch = new CountDownLatch(1);
 		estadoTamagotchi = Estados.JUGAR;
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void limpiarse() {
+		//Igual que en jugar solo que cambiamos el estado
+	    latch = new CountDownLatch(1);
 		estadoTamagotchi = Estados.LIMPIARSE;
-
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//Simplemente cambiamos el booleano y mostramos que ha muerto
