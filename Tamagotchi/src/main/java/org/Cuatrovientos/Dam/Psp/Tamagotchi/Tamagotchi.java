@@ -3,6 +3,9 @@ package org.Cuatrovientos.Dam.Psp.Tamagotchi;
 import java.util.Random;
 import java.util.Scanner;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class Tamagotchi implements Runnable {
 	private int id;
 	private int suciedad;
@@ -20,10 +23,9 @@ public class Tamagotchi implements Runnable {
 		random = new Random();
 		scanner = new Scanner(System.in);
 	}
-
-	@Override
+	
 	public void run() {
-		long tiempoInicio = System.currentTimeMillis();
+	    long tiempoInicio = System.currentTimeMillis();
 	    long CINCO_MINUTOS = 5 * 60 * 1000; // 300000 ms
         long ultimoEnsuciamiento = System.currentTimeMillis();
 	    
@@ -41,17 +43,9 @@ public class Tamagotchi implements Runnable {
 		    	}else if(suciedad == 10) {
 		    		morir();
 		    	}
-
 	    	}
-	    	hambre++;
-	    	if (hambre > 10) {
-	    		comer();
-	    	}
-            if (random.nextInt(5) == 0 && vivo) {
-                jugar();
-            }
-	    		    	
 	    	
+	    	    	
 	    }
 	    
         if (vivo) {
@@ -59,6 +53,7 @@ public class Tamagotchi implements Runnable {
             morir();
         }	    
 	}
+
 	public void comer() {
 		System.out.println("Tamagotchi " + id + " empezo a comer");
 		try {
@@ -69,7 +64,6 @@ public class Tamagotchi implements Runnable {
 		hambre = 0;
 		System.out.println("Tamagotchi " + id + " finalizo de comer");
 	}
-	
 	
 	public void jugar() {
 		int num1;
@@ -90,11 +84,14 @@ public class Tamagotchi implements Runnable {
 	}
 	
 	public void limpiarse() {
+		System.out.println("Tamagotchi " + id + " ha empezado a limpiarse");
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Tamagotchi " + id + " ha terminado de limpiarse");
+
 		
 		suciedad = 0;
 	}
@@ -103,7 +100,6 @@ public class Tamagotchi implements Runnable {
 		vivo = false;
 		System.out.println("Tamagotchi " + id + " ha muerto");
 	}
-	
 
 	public int getSuciedad() {
 		return suciedad;
@@ -121,5 +117,8 @@ public class Tamagotchi implements Runnable {
 	public int getId() {
 		return id;
 	}
+
+	
 	
 }
+
