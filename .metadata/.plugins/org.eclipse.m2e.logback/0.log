@@ -89,3 +89,5 @@
 2025-11-04 12:55:02,968 [Worker-39: Launching App] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\garin\Documents\Curso 25-26\Psp\1.Evaluacion\EntregaTamagotchiReal\Tamagotchi\src\test\resources
 2025-11-04 12:56:18,397 [Worker-34: Launching App] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\garin\Documents\Curso 25-26\Psp\1.Evaluacion\EntregaTamagotchiReal\Tamagotchi\src\main\resources
 2025-11-04 12:56:18,401 [Worker-34: Launching App] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\garin\Documents\Curso 25-26\Psp\1.Evaluacion\EntregaTamagotchiReal\Tamagotchi\src\test\resources
+2025-11-04 16:48:28,055 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is not available. Remote download required.
+2025-11-04 16:52:08,233 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.

@@ -4,14 +4,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Cuidador implements Runnable {
-
+	
+	//Variables
 	private Tamagotchi[] tamas;
 	private Boolean activo;
 	private Random random;
 	final int NUMTAMAGOTCHIS = 3;
 	private int input;
 	private Scanner scanner;
+	private Thread thread;
 	
+	//Constructor creamos los tamagotchis
 	public Cuidador() {
 		crearTamagotchis();
 		this.activo = true;
@@ -22,19 +25,22 @@ public class Cuidador implements Runnable {
 
 	@Override
 	public void run() {
-        System.out.println("👩‍⚕️ El cuidador ha comenzado a vigilar a los tamagotchis...");
-
+        System.out.println(" El cuidador ha comenzado a vigilar a los tamagotchis...");
+        // Bucle inf
         while (activo) {
+        	//Menu acciones
         	System.out.println("MENU TAMAGOTCHI");
         	System.out.println("1. LIMPAR");
         	System.out.println("2. ALIMENTAR");
         	System.out.println("3. JUGAR");
+        	System.out.println("4. SALIR");
         	System.out.print("ESCOGE UNA OPCION: ");
         	try {
         		input = Integer.parseInt(scanner.nextLine());
         	}catch(Exception e) {
         		System.out.println("Debes ingresar una opcion valida");
         	}
+        	//Switch para recojer el input y hacer las diferentes opciones
         	switch (input) {
         	case 1:
         		elegirTamagotchi();
@@ -46,12 +52,16 @@ public class Cuidador implements Runnable {
         		break;
         	case 3:
         		elegirTamagotchi();
-        		tamas[input].comer();
+        		tamas[input].jugar();
         		break;
+        	case 4:
+        		System.out.println("Saliendo del programa....");
+        		System.exit(0);
         	default:
         		System.out.println("Opcion incorrecta");
         	}
             
+        	//Miramos cada 2 segundos
             try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -59,6 +69,7 @@ public class Cuidador implements Runnable {
 				e.printStackTrace();
 			}
             
+            //Comprobamos si hay alguno vivo o han muerto todos, si todos han muerto finalizamos el programa
             boolean algunovivo = false;
             for (Tamagotchi t : tamas) {
             	if (t.getVivo()) {
@@ -74,9 +85,10 @@ public class Cuidador implements Runnable {
         }
 
 	}
-
+	
+	//Metodo para elegir un tamagotchi y validaciones
 	private void elegirTamagotchi() {
-		System.out.println("Tamagotchis disponibles: " + tamas.length);
+		System.out.println("Tamagotchis disponibles(Empezando desde el 0): " + (tamas.length - 1));
 		System.out.print("Elige un tamagotchi: ");
 		try {
 			input = Integer.parseInt(scanner.nextLine());
@@ -89,7 +101,7 @@ public class Cuidador implements Runnable {
 		}
 		
 	}
-	
+	//Metodo para crear tamagotchi en este caso hacemos 3 pero se podria preguntar al usuario y pasar como parametro
 	public void crearTamagotchis() {
 		tamas = new Tamagotchi[3];
 		Thread[] hilos = new Thread[3];
