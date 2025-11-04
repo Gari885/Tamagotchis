@@ -75,7 +75,6 @@ public class Cuidador implements Runnable {
 
 	}
 
-	
 	private void elegirTamagotchi() {
 		System.out.println("Tamagotchis disponibles: " + tamas.length);
 		System.out.print("Elige un tamagotchi: ");

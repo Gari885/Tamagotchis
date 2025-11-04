@@ -7,7 +7,12 @@ package org.Cuatrovientos.Dam.Psp.Tamagotchi;
 public class App
 {
     public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+    {	
+    	
+    	Cuidador cuidador = new Cuidador();
+    	Thread hiloCuidador = new Thread(cuidador);
+    	hiloCuidador.start();
+    	
+    	
     }
 }

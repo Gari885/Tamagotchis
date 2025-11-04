@@ -14,6 +14,13 @@ public class Tamagotchi implements Runnable {
 	private Random random;
 	private Scanner scanner;
 	private Cuidador cuidador;
+	private enum Estados {
+		NADA,
+		COMER,
+		JUGAR,
+		LIMPIARSE
+	}
+	private Estados estadoTamagotchi;
 	
 	public Tamagotchi(int id) {
 		this.id = id;
@@ -45,6 +52,46 @@ public class Tamagotchi implements Runnable {
 		    	}
 	    	}
 	    	
+	    	if (estadoTamagotchi == Estados.JUGAR) {
+	    		int num1;
+	    		int num2;
+	    		int sumaUsuario;
+	    		boolean jugar = true;
+	    		while (jugar) {
+	    			do {
+	    				num1 = random.nextInt(10);
+	    				num2 = random.nextInt(10);
+	    			}while((num1 + num2) >= 10);
+	    			System.out.print("Ingrese la suma de los siguientes numeros " + num1 + " + " + num2 + " =");
+	    			sumaUsuario = Integer.parseInt(scanner.nextLine());
+	    			if (sumaUsuario == num1 + num2) {
+	    				jugar = false;
+	    			}
+	    		}
+	    		estadoTamagotchi = Estados.NADA;
+	    	}else if (estadoTamagotchi == Estados.LIMPIARSE) {
+	    		System.out.println("Tamagotchi " + id + " ha empezado a limpiarse");
+	    		try {
+	    			Thread.sleep(5000);
+	    		} catch (InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		System.out.println("Tamagotchi " + id + " ha terminado de limpiarse");
+	    		suciedad = 0;
+	    		estadoTamagotchi = Estados.NADA;
+
+	    	}else if (estadoTamagotchi == Estados.COMER) {
+	    		System.out.println("Tamagotchi " + id + " empezo a comer");
+	    		try {
+	    			Thread.sleep(1000 + random.nextInt(4000));
+	    		} catch (InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		System.out.println("Tamagotchi " + id + " finalizo de comer");
+	    		estadoTamagotchi = Estados.NADA;
+	    	}
+	    	
+	    	
 	    	    	
 	    }
 	    
@@ -55,45 +102,17 @@ public class Tamagotchi implements Runnable {
 	}
 
 	public void comer() {
-		System.out.println("Tamagotchi " + id + " empezo a comer");
-		try {
-			Thread.sleep(1000 + random.nextInt(4000));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		hambre = 0;
-		System.out.println("Tamagotchi " + id + " finalizo de comer");
+		estadoTamagotchi = Estados.COMER;
+	
 	}
 	
 	public void jugar() {
-		int num1;
-		int num2;
-		int sumaUsuario;
-		boolean jugar = true;
-		while (jugar) {
-			do {
-				num1 = random.nextInt(10);
-				num2 = random.nextInt(10);
-			}while((num1 + num2) >= 10);
-			System.out.print("Ingrese la suma de los siguientes numeros " + num1 + " + " + num2 + " =");
-			sumaUsuario = Integer.parseInt(scanner.nextLine());
-			if (sumaUsuario == num1 + num2) {
-				jugar = false;
-			}
-		}
+		estadoTamagotchi = Estados.JUGAR;
 	}
 	
 	public void limpiarse() {
-		System.out.println("Tamagotchi " + id + " ha empezado a limpiarse");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Tamagotchi " + id + " ha terminado de limpiarse");
+		estadoTamagotchi = Estados.LIMPIARSE;
 
-		
-		suciedad = 0;
 	}
 	
 	public void morir() {
