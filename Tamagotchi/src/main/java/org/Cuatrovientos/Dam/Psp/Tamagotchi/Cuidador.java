@@ -43,17 +43,26 @@ public class Cuidador implements Runnable {
         	//Switch para recojer el input y hacer las diferentes opciones
         	switch (input) {
         	case 1:
-        		elegirTamagotchi();
-        		tamas[input].limpiarse();
+        		//Validamos de que ha ingresado un numero correcto
+        		if (elegirTamagotchi()) {
+        			tamas[input].limpiarse();
+        		}else {
+        			break;
+        		}
         		break;
         	case 2:
-        		elegirTamagotchi();
-        		tamas[input].comer();
+        		if (elegirTamagotchi()) {
+        			tamas[input].comer();
+        		}else {
+        			break;
+        		}
         		break;
         	case 3:
-        		elegirTamagotchi();
-        		tamas[input].jugar();
-        		break;
+        		if (elegirTamagotchi()) {
+        			tamas[input].jugar();
+        		}else {
+        			break;
+        		}
         	case 4:
         		System.out.println("Saliendo del programa....");
         		System.exit(0);
@@ -87,18 +96,21 @@ public class Cuidador implements Runnable {
 	}
 	
 	//Metodo para elegir un tamagotchi y validaciones
-	private void elegirTamagotchi() {
+	private boolean elegirTamagotchi() {
+		//Booleano para verificar de que el numero sea correcto
 		System.out.println("Tamagotchis disponibles(Empezando desde el 0): " + (tamas.length - 1));
 		System.out.print("Elige un tamagotchi: ");
 		try {
 			input = Integer.parseInt(scanner.nextLine());
 		}catch(Exception e) {
 			System.out.println("Debes ingresar un numero");
+			return false;
 		}
-		
 		if (input < 0 || input > tamas.length) {
 			System.out.println("Debes ingresar un tamagotchi que exista");
+			return false;
 		}
+		return true;
 		
 	}
 	//Metodo para crear tamagotchi en este caso hacemos 3 pero se podria preguntar al usuario y pasar como parametro

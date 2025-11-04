@@ -109,8 +109,6 @@ public class Tamagotchi implements Runnable {
 	    		estadoTamagotchi = Estados.NADA;
 	    	}
 	    	
-	    	
-	    	    	
 	    }
 	    
 	    //Si pasan los 5 min y sigue vivo se muere solo
