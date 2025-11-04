@@ -1,3 +1,5 @@
 INDEX VERSION 1.134+C:\Users\garin\Documents\Curso 25-26\Psp\1.Evaluacion\EntregaTamagotchiReal\.metadata\.plugins\org.eclipse.jdt.core
 3187546750.index
 1865797976.index
+943886638.index
+1313094510.index
