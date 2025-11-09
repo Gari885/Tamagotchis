@@ -16,7 +16,7 @@ public class Tamagotchi implements Runnable {
 	private Cuidador cuidador;
 	private CountDownLatch latch;
 	//Enum para controlar los estados del Tamagotchi
-	private enum Estados {
+	enum Estados {
 		NADA,
 		COMER,
 		JUGAR,
@@ -91,7 +91,6 @@ public class Tamagotchi implements Runnable {
 	    		}
 	    		System.out.println("Tamagotchi " + id + " ha terminado de limpiarse");
 	    		suciedad = 0;
-	    	    latch.countDown(); // Bajamos el contador una posicion, osea a 0 y liberamos el hilo principal
 	    		//Cambiamos el estado a nada para que no se repita
 	    		estadoTamagotchi = Estados.NADA;
 
@@ -104,7 +103,6 @@ public class Tamagotchi implements Runnable {
 	    			e.printStackTrace();
 	    		}
 	    		System.out.println("Tamagotchi " + id + " finalizo de comer");
-	    	    latch.countDown(); // Bajamos el contador una posicion, osea a 0 y liberamos el hilo principal
 	    		//Cambiamos el estado a nada para que no se repita
 	    		estadoTamagotchi = Estados.NADA;
 	    	}
@@ -120,15 +118,8 @@ public class Tamagotchi implements Runnable {
 	
 	//Variables para las funcionalidades del tamagotchi, en este caso cambiamos el estadoTamagotchi para luego verificar en el run()
 	public void comer() {
-		//Igual que en jugar solo que cambiamos el metodo
-	    latch = new CountDownLatch(1);
 	    estadoTamagotchi = Estados.COMER;
-	    try {
-	        latch.await(); // Espera hasta que termine
-	    } catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
+
 	}
 	
 	public void jugar() {
@@ -145,15 +136,7 @@ public class Tamagotchi implements Runnable {
 	}
 	
 	public void limpiarse() {
-		//Igual que en jugar solo que cambiamos el estado
-	    latch = new CountDownLatch(1);
 		estadoTamagotchi = Estados.LIMPIARSE;
-		try {
-			latch.await();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	//Simplemente cambiamos el booleano y mostramos que ha muerto
@@ -180,7 +163,10 @@ public class Tamagotchi implements Runnable {
 	public int getId() {
 		return id;
 	}
-
+	
+	public Estados getEstado() {
+		return estadoTamagotchi;
+	}
 	
 	
 }
